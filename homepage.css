@@ -10,6 +10,11 @@ p {
     margin-top: 3rem;
 }
 
-form > h1, div.mb-3, h5 {
-    transition: 1s;
+/* form>h1,
+div.mb-3,
+h5 {
+    transition: display 1s;
+} */
+* {
+    transition: display 1s;
 }
