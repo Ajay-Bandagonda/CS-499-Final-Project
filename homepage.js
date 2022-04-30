@@ -8,16 +8,18 @@ submit.addEventListener('click', function(e) {
         element.setAttribute('style', 'display: none;')
     })
 
+    //smartContract()
+
     title.innerText = 'Congrats! Your smart contract has been created!'
 
     let subheading = document.querySelector("p");
     subheading.innerText = 'After our team reviews your article and deems it fit to be displayed, the smart contract will execute.'
 
     document.querySelector('form').appendChild(subheading)
-    console.log(elements)
+
 })
 
-function smartContract_SendCommission() {
+function smartContract() {
     const ABI = [
         {
             "inputs": [],
@@ -65,7 +67,7 @@ function smartContract_SendCommission() {
     ]
     
     let provider = new ethers.providers.InfuraProvider("ropsten", '3c4c8512e12f43eb82d8f19ea0655022');
-    
+
     const contract_address = '0xf7cbf44a699e6ecd909a9de8f7e99226b8b12fed'
     const wallet_key = '0x2df564cdf6e5068aa1729eaa7c2882c2e24d58b3e91a26f2d66e5dd2a1adfed8'
     let wallet = new ethers.Wallet(wallet_key, provider);
