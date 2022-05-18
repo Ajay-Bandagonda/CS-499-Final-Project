@@ -1,5 +1,6 @@
 let submit = document.getElementById('submit')
 let title = document.getElementsByTagName('h1')[0]
+let userWallet = document.querySelector('#wallet-address')
 
 submit.addEventListener('click', function(e) {
     e.preventDefault()
@@ -8,18 +9,21 @@ submit.addEventListener('click', function(e) {
         element.setAttribute('style', 'display: none;')
     })
 
-    //smartContract()
-
     title.innerText = 'Congrats! Your smart contract has been created!'
 
     let subheading = document.querySelector("p");
+    let p2 = document.querySelector('#wallet-add')
     subheading.innerText = 'After our team reviews your article and deems it fit to be displayed, the smart contract will execute.'
+    p2.innerText = 'Wallet address confirmation: ' + userWallet.value
+
+    smartContract(userWallet.value)
 
     document.querySelector('form').appendChild(subheading)
-
+    submit.setAttribute('style', 'display: none;')
 })
 
-function smartContract() {
+function smartContract(userWalletAddress) {
+    // Contract Application Binary Interface (ABI) - Interface that allows you to interact with smart contract
     const ABI = [
         {
             "inputs": [],
@@ -75,7 +79,8 @@ function smartContract() {
     let signer = wallet.connect(provider)
     let contract = new ethers.Contract(contract_address, ABI, signer);
     // let readonly_contract = new ethers.Contract(contract_address, ABI, provider);
-    
+
+    /*
     const tx = {
         from: '0x6B5A591F25c54D00a64d35e05d0046BEde21b073',
         to: '0xf7cbf44a699e6ecd909a9de8f7e99226b8b12fed',
@@ -83,14 +88,30 @@ function smartContract() {
         nonce: provider.getTransactionCount('0x6B5A591F25c54D00a64d35e05d0046BEde21b073', "latest"),
         gasLimit: ethers.utils.parseUnits('0.000000000227'), // 100000
         gasPrice: provider.getGasPrice(),
-      }
+    }
     
+    
+    // This is how we can send money to the contract...
     signer.sendTransaction(tx)
         .then((response) => {
             console.log('SEND TRANSACTION RESPONSE = ' + response);
         })
         .catch((err) => {
             console.log("SEND TRANSACTION ERROR = " + err);
+        })
+    */
+    
+
+    // console.log('Send Commission function being executed....');
+    contract.sendCommission(userWalletAddress)
+        .then((response) => {
+            console.log("SENDING COMMISSION: ")
+            console.log(response)
+            output = response
+        })
+        .catch((err) => {
+            console.log('ERROR' + err);
+            output = err
         })
     
     let output = ''
@@ -101,17 +122,6 @@ function smartContract() {
     //     })
     //     .catch((err) => {
     //         console.log(err);
-    //         output = err
-    //     })
-    
-    // console.log('Send Commission function being executed....');
-    // contract.sendCommission('0x6B5A591F25c54D00a64d35e05d0046BEde21b073')
-    //     .then((response) => {
-    //         console.log("SENDING COMMISSION: " + response);
-    //         output = response
-    //     })
-    //     .catch((err) => {
-    //         console.log('ERRORRRR' + err);
     //         output = err
     //     })
     
